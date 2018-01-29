@@ -1,11 +1,23 @@
 body{
 	background-color: #e6e6e6;
+
 }
 
+a:focus, a:hover {
+    text-decoration: none; 
+    color:white;
+}
 h1 {
     color: #000;
-}
 
+}
+.logo-k a{
+	border: 1px solid white;
+    padding: 14px 70px;
+    font-size: 24px;
+    font-weight: 500 !important;
+    font-family: serif;
+}
 .main-h1{
 }
 

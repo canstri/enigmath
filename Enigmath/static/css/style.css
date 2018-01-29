@@ -251,6 +251,10 @@ header {
 	line-height:80px;
 	font-size:26px;
 	color:#e6e6e6;
+	border: 1px solid white;
+    padding: 6px 80px;
+    font-size: 26px;
+    font-family: 'Open Sans Condensed',sans-serif;
 }
 .logo a span {
 	display:inline-block;

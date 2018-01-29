@@ -18,7 +18,7 @@
 
 	<div class='row'>
 		<div class='col-sm-12'>
-			{{ instance.content }}
+			{{ instance.get_markdown }}
 		<hr/>
 		{% if instance.image %}
 	    	<img src='{{ instance.image.url }}' class='img-from-post' />

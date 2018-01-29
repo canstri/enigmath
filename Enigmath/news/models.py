@@ -7,12 +7,8 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 
 from django.utils.text import slugify
-# Create your models here.
-# MVC MODEL VIEW CONTROLLER
-
-
-#Post.objects.all()
-#Post.objects.create(user=user, title="Some time")
+from markdown_deux import markdown
+from django.utils.safestring import mark_safe
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
@@ -21,8 +17,8 @@ class PostManager(models.Manager):
 
 
 def upload_location(instance, filename):
-    #filebase, extension = filename.split(".")
-    #return "%s/%s.%s" %(instance.id, instance.id, extension)
+    PostModel = instance.__class__
+    new_id = PostModel.objects.order_by("id").last().id + 1
     return "%s/%s" %(instance.id, filename)
 
 class Post(models.Model):
@@ -55,6 +51,9 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-timestamp", "-updated"]
+
+    def get_markdown(self):
+        return mark_safe(markdown(self.content))
 
 
 

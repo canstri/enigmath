@@ -11,7 +11,6 @@ from .forms import PostForm
 from .models import Post
 
 def news_create(request):
-	today = timezone.now().date()
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 		
@@ -25,7 +24,6 @@ def news_create(request):
 		return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
 		"form": form,
-		"today": today,
 	}
 	return render(request, "news_create.html", context)
 
@@ -97,7 +95,7 @@ def news_update(request, slug=None):
 		"instance": instance,
 		"form":form,
 	}
-	return render(request, "news_form.html", context)
+	return render(request, "news_create.html", context)
 
 
 

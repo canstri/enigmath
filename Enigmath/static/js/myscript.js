@@ -18,14 +18,7 @@ jQuery(window).load(function () {
 /*-----------------------------------------------------------------------------------*/
 /*	NICESCROLL
 /*-----------------------------------------------------------------------------------*/
-jQuery(document).ready(function() {
-	jQuery("body").niceScroll({
-		cursorcolor:"#333",
-		cursorborder:"0px",
-		cursorwidth :"8px",
-		zindex:"9999"
-	});
-});
+
 
 
 
@@ -34,107 +27,11 @@ jQuery(document).ready(function() {
 /*-----------------------------------------------------------------------------------*/
 /*	MENU
 /*-----------------------------------------------------------------------------------*/
-function calculateScroll() {
-	var contentTop      =   [];
-	var contentBottom   =   [];
-	var winTop      =   $(window).scrollTop();
-	var rangeTop    =   200;
-	var rangeBottom =   500;
-	$('.navmenu').find('.scroll_btn a').each(function(){
-		contentTop.push( $( $(this).attr('href') ).offset().top );
-		contentBottom.push( $( $(this).attr('href') ).offset().top + $( $(this).attr('href') ).height() );
-	})
-	$.each( contentTop, function(i){
-		if ( winTop > contentTop[i] - rangeTop && winTop < contentBottom[i] - rangeBottom ){
-			$('.navmenu li.scroll_btn')
-			.removeClass('active')
-			.eq(i).addClass('active');			
-		}
-	})
-};
-
-jQuery(document).ready(function() {
-	//MobileMenu
-	if ($(window).width() < 768){
-		jQuery('.menu_block .container').prepend('<a href="javascript:void(0)" class="menu_toggler"><span class="fa fa-align-justify"></span></a>');
-		jQuery('header .navmenu').hide();
-		jQuery('.menu_toggler, .navmenu ul li a').click(function(){
-			jQuery('header .navmenu').slideToggle(300);
-		});
-	}
-		
-	// if single_page
-	if (jQuery("#page").hasClass("single_page")) {			
-	}
-	else {
-		$(window).scroll(function(event) {
-			calculateScroll();
-		});
-		$('.navmenu ul li a, .mobile_menu ul li a, .btn_down').click(function() {  
-			$('html, body').animate({scrollTop: $(this.hash).offset().top - 80}, 1000);
-			return false;
-		});
-	};
-});
-
-
-/* Superfish */
-jQuery(document).ready(function() {
-	if ($(window).width() >= 768){
-		$('.navmenu ul').superfish();
-	}
-});
-
-
 
 
 
 	
 
-
-/*-----------------------------------------------------------------------------------*/
-/*	FLEXSLIDER
-/*-----------------------------------------------------------------------------------*/
-jQuery(window).load(function(){
-	//Top Slider
-	$('.flexslider.top_slider').flexslider({
-		animation: "fade",
-		controlNav: false,
-		directionNav: true,
-		animationLoop: false,
-		slideshow: false,
-		prevText: "",
-		nextText: "",
-		sync: "#carousel"
-	});
-	$('#carousel').flexslider({
-		animation: "fade",
-		controlNav: false,
-		animationLoop: false,
-		directionNav: false,
-		slideshow: false,
-		itemWidth: 100,
-		itemMargin: 5,
-		asNavFor: '.top_slider'
-	});
-	
-	homeHeight();
-	
-	
-	jQuery('.flexslider.top_slider .flex-direction-nav').addClass('container');
-	
-	
-	//Vision Slider
-	$('.flexslider.portfolio_single_slider').flexslider({
-		animation: "fade",
-		controlNav: true,
-		directionNav: true,
-		animationLoop: false,
-		slideshow: false,
-	});
-	
-	
-});
 
 jQuery(window).resize(function(){
 	homeHeight();
@@ -159,56 +56,6 @@ function homeHeight(){
 
 
 
-/*-----------------------------------------------------------------------------------*/
-/*	OWLCAROUSEL
-/*-----------------------------------------------------------------------------------*/
-$(document).ready(function() {
-	
-	//WORKS SLIDER
-    var owl = $(".owl-demo.projects_slider");
-
-    owl.owlCarousel({
-		navigation: true,
-		pagination: false,
-		items : 4,
-		itemsDesktop : [1000,4],
-		itemsDesktop : [600,3]
-	});
-	
-	
-	//TEAM SLIDER
-    var owl = $(".owl-demo.team_slider");
-
-    owl.owlCarousel({
-		navigation: true,
-		pagination: false,
-		items : 3,
-		itemsDesktop : [600,2]
-	});
-	
-	
-	
-	jQuery('.owl-controls').addClass('container');
-	
-	
-	//TESTIMONIALS SLIDER
-    var owl = $(".owl-demo.testim_slider");
-
-    owl.owlCarousel({
-		itemsCustom : [
-			[0, 1]
-        ],
-		navigation: false,
-		pagination: true,
-		items : 1
-	});
-	
-	
-	
-	jQuery('.owl-controls').addClass('container');
-	
-	
-});
 
 
 
