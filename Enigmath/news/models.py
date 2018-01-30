@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from markdown_deux import markdown
 from django.utils.safestring import mark_safe
+from transliterate import translit, get_available_language_codes
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
@@ -47,6 +48,9 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        if not self.slug:
+            self.slug = slugify(translit(self.title, 'ru', reversed=True))
+            print("dedede") 
         return reverse("news:detail", kwargs={"slug": self.slug})
 
     class Meta:
@@ -59,6 +63,8 @@ class Post(models.Model):
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)
+    if not slug:
+        slug = slugify(translit(instance.title, 'ru', reversed=True))
     if new_slug is not None:
         slug = new_slug
     qs = Post.objects.filter(slug=slug).order_by("-id")
