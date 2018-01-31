@@ -37,6 +37,7 @@ def news_detail(request, slug=None):
         if not request.user.is_staff or not request.user.is_superuser:
             raise Http404
     share_string = quote_plus(instance.content)
+
     initial_data={
         "content_type": instance.get_content_type,
         "object_id": instance.id
@@ -45,8 +46,7 @@ def news_detail(request, slug=None):
     form = CommentForm(request.POST or None, initial=initial_data)
 
     if form.is_valid():
-        c_type = form.cleaned_data.get("content_type")
-        content_type = ContentType.objects.get(model=c_type)
+        content_type = ContentType.objects.get(model=form.cleaned_data.get("content_type"))
         obj_id = form.cleaned_data.get('object_id')
         content_data = form.cleaned_data.get("content")
         parent_obj = None
@@ -70,16 +70,13 @@ def news_detail(request, slug=None):
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
-
-    post_url = instance.get_absolute_url()
-    comments = instance.comments
     context = {
         "title": instance.title,
         "instance": instance,
         "share_string": share_string,
-        "comments": comments,
+        "comments": instance.comments,
         "comment_form":form,
-        "post_url":post_url,
+        "post_url":instance.get_absolute_url(),
     }
     return render(request, "news_detail.html", context)
 

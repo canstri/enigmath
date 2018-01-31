@@ -8,6 +8,7 @@
 
 
 
+
 {% block content %}
 <div class='col-sm-6 col-sm-offset-3'>
 	<h1>{{ title }} <small>{{ instance.publish }}</small></h1>
@@ -22,14 +23,14 @@
 			{{ instance.get_markdown }}
 		<hr/>
 		{% if instance.image %}
-	    	<img src='{{ instance.image.url }}' class='img-from-post' />
+	    	<img src='{{ instance.image.url }}' />
 		{% endif %}
 
 		<br/>
 
 		</div>
 	</div>
-
+	<p><br></p>
 		<div class="share_buttons">
 			<div class="fb-share-button" data-href=post_urls data-layout="button_count" data-size="small" data-mobile-iframe="true">
 				<a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a>
@@ -51,15 +52,16 @@
 
         {% for comment in comments %}
 			<blockquote>
-				<div class="comment-user">{{ comment.user }}</div>
+				<a href="">{{ comment.user }}</a>
  		        <p>{{ comment.content }}</p>
 		        <div class="small-details">{{ comment.timestamp|timesince }} ago |
 		        <a class='comment-reply-btn' href='#'>{{ comment.children.count }} Comment{% if comment.children.count > 1 or comment.children.count == 0 %}s{% endif %}</a></div>
 		        <div class='comment-reply'>
 		              {% for child_comment in comment.children %}
 		                <blockquote>
-			                <div> <small>{{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago</small></div>
-			                <p>{{ child_comment.content }}</p>		                
+			                <a href="">{{ child_comment.user }}</a>
+			                <p>{{ child_comment.content }}</p>
+			                <div class="small-details">{{ child_comment.timestamp|timesince }} ago</div>		                
 		                </blockquote>
 		             {% endfor %}
 
@@ -75,9 +77,9 @@
 	         <hr/>
 
         {% endfor %}
-        <form method="POST" action="" enctype='multipart/form-data'> {% csrf_token %}
+        <form method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
             {{ comment_form|crispy }}
-            <input type='submit' value='Post comment' class='btn btn-info'>
+            <input type='submit' class='btn btn-info' value='Post comment' >
         </form>
 
     </div>

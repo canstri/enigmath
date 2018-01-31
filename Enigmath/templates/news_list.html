@@ -2,17 +2,8 @@
 {% block content %}
 
 
-<div class='col-sm-6 col-sm-offset-3'>
+<div class='col-sm-7 col-sm-offset-1'>
     <h1 class="main-h1">{{ title }}</h1>
-
-    <form method='GET' action=''>
-        <div class="input-group">
-            <input type='text' name='q' placeholder='Search news' value='{{ request.GET.q }}'/>
-            <span class="input-group-btn">
-                <button class="btn btn-active" type="submit"><i class="fa fa-search"></i></button>
-            </span>
-        </div>
-    </form>
 
     {% for obj in object_list %}
     <div class="row">
@@ -31,8 +22,8 @@
             {% if obj.image %}
                 <img src='{{ obj.image.url }}'/>
             {% endif %}
-            
-            <p><a href="{{ obj.get_absolute_url }}" class="btn btn-link" role="button">View</a></p>
+            <p><br></p>
+            <a href="{{ obj.get_absolute_url }}">{{ obj.comments.count }} Comment{% if obj.comments.count > 1 or obj.comments.count == 0 %}s{% endif %}</a>
           
           </div>
         </div>
@@ -60,6 +51,18 @@
 
 
 
+
+</div>
+<p><br><br><br></p>
+<div class='col-sm-3 col-sm-onset-8'>
+    <form method='GET' action=''>
+        <div class="input-group">
+            <input type='text' name='q' placeholder='Search news' value='{{ request.GET.q }}'/>
+            <span class="input-group-btn">
+                <button class="btn btn-active" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </form>
 
 </div>
 
