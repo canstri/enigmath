@@ -71,7 +71,7 @@ def news_detail(request, slug=None):
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
 
-
+    post_url = instance.get_absolute_url()
     comments = instance.comments
     context = {
         "title": instance.title,
@@ -79,6 +79,7 @@ def news_detail(request, slug=None):
         "share_string": share_string,
         "comments": comments,
         "comment_form":form,
+        "post_url":post_url,
     }
     return render(request, "news_detail.html", context)
 

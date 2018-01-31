@@ -11,6 +11,9 @@ body{
   color: blue;
 }
 
+.share_buttons{
+  display:inline-block;
+}
 .small-details{
   font-size: 80%;
   color: grey;
