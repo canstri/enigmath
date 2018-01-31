@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load urlify %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}
 {{ instance.title }} | {{ block.super }}
@@ -25,47 +26,48 @@
 		{% endif %}
 
 		<br/>
-		<!-- <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div> -->
 
 		</div>
 	</div>
-	
-
-	<!-- <p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-	<hr/>
-	</p> -->
-
-	<!-- <p>
-	<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-	Facebook
-	</a>
-	<a href="https://twitter.com/home?status={{ instance.content|truncatechars:80|urlify }}%20{{ request.build_absolute_uri }}">
-	Twitter
-	</a>
-	<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
-	<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">
-	Linkedin
-	</a>
-	<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">Reddit</a>
-	</p> -->
-	
-
 
     <hr/>
     <br/>
 
     <div>
         <p class='lead'>Comments</p>
+        <hr/>
+
         {% for comment in comments %}
-            <div class=''>
-                <small>{{ comment.timestamp|timesince }} ago, {{ comment.user }}: </small>
-                <br>
-                {{ comment.content }}
-                <br/>
-                <hr/>
-            </div>
+			<blockquote>
+				<div class="comment-user">{{ comment.user }}</div>
+ 		        <p>{{ comment.content }}</p>
+		        <div class="small-details">{{ comment.timestamp|timesince }} ago |
+		        <a class='comment-reply-btn' href='#'>{{ comment.children.count }} Comment{% if comment.children.count > 1 or comment.children.count == 0 %}s{% endif %}</a></div>
+		        <div class='comment-reply'>
+		              {% for child_comment in comment.children %}
+		                <blockquote>
+			                <div> <small>{{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago</small></div>
+			                <p>{{ child_comment.content }}</p>		                
+		                </blockquote>
+		             {% endfor %}
+
+		            <form method="POST" action="."> {% csrf_token %}
+		                {{ comment_form|crispy }}
+		                <input type='hidden' name='parent_id' value='{{ comment.id }}'>
+		                <input type='submit' value='Reply' class='btn btn-info'>
+		            </form>
+		        </div>
+
+	        </blockquote>
+
+	         <hr/>
 
         {% endfor %}
+        <form method="POST" action="" enctype='multipart/form-data'> {% csrf_token %}
+            {{ comment_form|crispy }}
+            <input type='submit' value='Post comment' class='btn btn-info'>
+        </form>
+
     </div>
 
 </div>

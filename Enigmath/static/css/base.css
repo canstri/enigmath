@@ -3,6 +3,19 @@ body{
 
 }
 
+.comment-reply{
+    display:none;
+}
+
+.comment-user{
+  color: blue;
+}
+
+.small-details{
+  font-size: 80%;
+  color: grey;
+}
+
 a:focus, a:hover {
     text-decoration: none; 
     color:white;

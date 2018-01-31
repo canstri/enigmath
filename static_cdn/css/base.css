@@ -3,6 +3,10 @@ body{
 
 }
 
+.comment-reply{
+    display:none;
+}
+
 a:focus, a:hover {
     text-decoration: none; 
     color:white;
