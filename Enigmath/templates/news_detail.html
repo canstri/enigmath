@@ -17,6 +17,9 @@
 		<p>Author: {{ instance.user.get_full_name }}</p>
 	{% endif %}
 
+	{% if see_delete_button == "yes" %} 
+        <a href='{{ instance.get_delete_url }}'>Delete</a>
+    {% endif %}
 
 	<div class='row'>
 		<div class='col-sm-12'>
@@ -54,14 +57,24 @@
 			<blockquote>
 				<a href="">{{ comment.user }}</a>
  		        <p>{{ comment.content }}</p>
-		        <div class="small-details">{{ comment.timestamp|timesince }} ago |
-		        <a class='comment-reply-btn' href='#'>{{ comment.children.count }} Comment{% if comment.children.count > 1 or comment.children.count == 0 %}s{% endif %}</a></div>
+		        <div class="small-details">
+			        {{ comment.timestamp|timesince }} ago |
+			        <a class='comment-reply-btn' href='#'>
+			        	{{ comment.children.count }} Comment{% if comment.children.count > 1 or comment.children.count == 0 %}s{% endif %}
+			        </a>
+
+			        {% if request.user == comment.user %} | <a href='{{ comment.get_delete_url }}'>Delete</a>{% endif %}
+		        </div>
 		        <div class='comment-reply'>
 		              {% for child_comment in comment.children %}
 		                <blockquote>
 			                <a href="">{{ child_comment.user }}</a>
 			                <p>{{ child_comment.content }}</p>
-			                <div class="small-details">{{ child_comment.timestamp|timesince }} ago</div>		                
+			                <div class="small-details">{{ child_comment.timestamp|timesince }} ago
+			                	{% if request.user == child_comment.user %} 
+                    		      | <a href='{{ child_comment.get_delete_url }}'>Delete</a>
+                        		{% endif %}
+			                </div>		                
 		                </blockquote>
 		             {% endfor %}
 

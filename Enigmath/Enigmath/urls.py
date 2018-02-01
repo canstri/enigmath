@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^enigmath/', include("news.urls", namespace='news')),
+    url(r'^comments/', include("comments.urls", namespace='comments')),
 ]
 
 if settings.DEBUG:

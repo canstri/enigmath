@@ -45,11 +45,10 @@
 					<div class="pull-right">
 						<nav class="navmenu center">
 							<ul>
-								<li class="first active scroll_btn"><a href="" >Home</a></li>
-								<li class="btn-menu-e"><a href="" >About Us</a></li>
-								<li class="btn-menu-e"><a href="#projects" >Projects</a></li>
-								<li class="btn-menu-e"><a href="#team" >Team</a></li>
-								<li class="btn-menu-e"><a href="#news" >News</a></li>
+								<li class="btn-menu-e"><a href='{% url "news:list" %}' >News</a></li>
+								{% if see_delete_button == "yes" %} 
+					                <li class="btn-menu-e"><a href='{% url "news:create" %}' >Create</a></li>
+					            {% endif %}
 								<li class="btn-menu-e last"><a href="#contacts" >Contacts</a></li>
 								
 							</ul>

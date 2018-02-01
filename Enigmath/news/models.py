@@ -51,6 +51,9 @@ class Post(models.Model):
             self.slug = slugify(translit(self.title, 'ru', reversed=True))
             print("dedede") 
         return reverse("news:detail", kwargs={"slug": self.slug})
+    
+    def get_delete_url(self):
+        return reverse("news:delete", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = ["-timestamp", "-updated"]

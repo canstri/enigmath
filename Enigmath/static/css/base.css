@@ -18,6 +18,9 @@ body{
   font-size: 80%;
   color: grey;
 }
+.small-link{
+  font-size: 50%;
+}
 
 a:focus, a:hover {
     text-decoration: none; 
