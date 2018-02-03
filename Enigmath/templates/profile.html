@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+{{ user }} | {{ block.super }}
+{% endblock head_title %}
+
+
+{% block head_extra %} 
+	{{ form.media }}
+{% endblock head_extra %}
+
+
+
+
+{% block content %}
+<div class='col-sm-7 col-sm-offset-1'>
+	<h3>{{ hisprofile }} </h3>
+	<h4>{{ status }} </h4>
+	<hr>
+		<strong>Rating: {{ rating }}</strong>
+		<br><br>
+
+
+		{% if user == hisprofile %}
+			<div>
+				<form method='POST' action=''>{% csrf_token %}
+					{{ form|crispy }}
+					<input type='submit' class='btn btn-primary' value='Save' />
+				</form>
+			</div>
+		{% else %}
+			<strong>School: {{ school }}</strong>
+			 <br><br>
+			<strong>Birthday: {{ birthday }}</strong>	
+	
+		{% endif %}
+
+		<hr>
+		<br><br>
+
+		<br><br>
+		<br><br>
+		<br><br>
+		<br><br>
+		<br><br>
+		<br><br>
+
+
+
+
+
+	
+	
+</div>
+
+{% endblock content %}

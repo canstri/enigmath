@@ -14,6 +14,9 @@ from .models import Post
 from comments.models import Comment
 from comments.forms import CommentForm
 
+from accounts.models import Profile
+
+
 def news_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
@@ -26,12 +29,19 @@ def news_create(request):
         # message success
         messages.success(request, "Successfully Created")
         return HttpResponseRedirect(instance.get_absolute_url())
-    see_delete_button = "no"
+    staff = "no"
     if request.user.is_staff or request.user.is_superuser:
-        see_delete_button = "yes"
+        staff = "yes"
+    
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
+    
     context = {
         "form": form,
-        "see_delete_button":see_delete_button,
+        "staff":staff,
+        "user":request.user,
+        "profile":profile,
     }
     return render(request, "news_create.html", context)
 
@@ -47,9 +57,9 @@ def news_detail(request, slug=None):
         "object_id": instance.id
     }
 
-    see_delete_button = "no"
+    staff = "no"
     if request.user.is_staff or request.user.is_superuser:
-        see_delete_button = "yes"
+        staff = "yes"
 
     form = CommentForm(request.POST or None, initial=initial_data)
 
@@ -77,6 +87,11 @@ def news_detail(request, slug=None):
                             parent = parent_obj,
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+    
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
+    
     context = {
         "title": instance.title,
         "instance": instance,
@@ -84,16 +99,18 @@ def news_detail(request, slug=None):
         "comments": instance.comments,
         "comment_form":form,
         "post_url":instance.get_absolute_url(),
-        "see_delete_button":see_delete_button,
+        "staff":staff,
+        "profile":profile,
+        "user":request.user,
     }
     return render(request, "news_detail.html", context)
 
 def news_list(request):
     today = timezone.now().date()
     queryset_list = Post.objects.active() #.order_by("-timestamp")
-    see_delete_button = "no"
+    staff = "no"
     if request.user.is_staff or request.user.is_superuser:
-        see_delete_button = "yes"
+        staff = "yes"
         queryset_list = Post.objects.all()
     
     query = request.GET.get("q")
@@ -117,12 +134,18 @@ def news_list(request):
         queryset = paginator.page(paginator.num_pages)
 
     likes = Post.likes
+    
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
     context = {
         "object_list": queryset, 
         "title": "News",
         "page_request_var": page_request_var,
         "today": today,
-        "see_delete_button" : see_delete_button,
+        "staff" : staff,
+        "profile": profile,
+        "user":request.user,
     }
     return render(request, "news_list.html", context)
 
@@ -140,11 +163,17 @@ def news_update(request, slug=None):
         instance.save()
         messages.success(request, "<a href='#'>Item</a> Saved", extra_tags='html_safe')
         return HttpResponseRedirect(instance.get_absolute_url())
+    
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
 
     context = {
         "title": instance.title,
         "instance": instance,
         "form":form,
+        "user":request.user,
+        "profile":profile,
     }
     return render(request, "news_create.html", context)
 
@@ -159,6 +188,11 @@ def news_delete(request, slug=None):
     if not request.user.is_staff or not request.user.is_superuser:
         reponse.status_code = 403
         return HttpResponse("You do not have permission to do this.")
+
+    for comment in instance.comments_parents:
+        comment.delete()
+    for comment in instance.comments:
+        comment.delete()
 
     if request.method == "POST":
         instance.delete()

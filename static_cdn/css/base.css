@@ -11,6 +11,10 @@ body{
   color: blue;
 }
 
+.comment_form{
+  height: 200px;
+}
+
 .like_btn{
   font-size:2em; 
   color: lightgrey;
@@ -23,6 +27,10 @@ body{
   display: inline-block;
   color: grey;
   font-size: 1.5em;
+}
+
+.logo-li{
+  width: 100%
 }
 
 .share_buttons{

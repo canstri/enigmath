@@ -17,8 +17,9 @@
 		<p>Author: {{ instance.user.get_full_name }}</p>
 	{% endif %}
 
-	{% if see_delete_button == "yes" %} 
-        <a href='{{ instance.get_delete_url }}'>Delete</a>
+	{% if staff == "yes" %} 
+        <a href='{{ instance.get_delete_url }}'>Delete</a> |
+        <a href='{{ instance.get_update_url }}'>Edit</a>
     {% endif %}
 
 	<div class='row'>
@@ -57,7 +58,7 @@
 
         {% for comment in comments %}
 			<blockquote>
-				<a href="">{{ comment.user }}</a>
+				<a href="{{ comment.get_profile }}">{{ comment.user }}</a>
  		        <p>{{ comment.content }}</p>
 		        <div class="small-details">
 			        {{ comment.timestamp|timesince }} ago |
@@ -69,7 +70,8 @@
 		        </div>
 		        <div class='comment-reply'>  
 		        	<form method="POST" action="."> {% csrf_token %}
-		                {{ comment_form|crispy }}
+		                {{ comment_form }}
+		                <br><br>
 		                <input type='hidden' name='parent_id' value='{{ comment.id }}'>
 		                <input type='submit' value='Reply' class='btn btn-info'>
 		            </form>
@@ -89,7 +91,8 @@
 			                </div>
 			                <div class='comment-reply'>  
 					        	<form method="POST" action="."> {% csrf_token %}
-					                {{ comment_form|crispy }}
+					                {{ comment_form }}
+					                <br><br>
 					                <input type='hidden' name='parent_id' value='{{ comment.id }}'>
 					                <input type='submit' value='Reply' class='btn btn-info'>
 					            </form>
@@ -103,11 +106,12 @@
 	         <hr/>
 
         {% endfor %}
-        <form method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
-            {{ comment_form|crispy }}
+        <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+            {{ comment_form }}
+            <br><br>
             <input type='submit' class='btn btn-info' value='Post comment' >
         </form>
-
+        <br><br><br><br>
     </div>
 
 </div>

@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
+from accounts.models import Profile
 from .forms import CommentForm
 from .models import Comment
 
@@ -22,8 +23,17 @@ def comment_delete(request, id):
         obj.delete()
         messages.success(request, "This has been deleted.")
         return HttpResponseRedirect(parent_obj_url)
+    
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
+    staff = "no"
+    if request.user.is_staff or request.user.is_superuser:
+        staff = "yes"
     context = {
-        "object": obj
+        "staff":staff,
+        "profile":profile,
+        "object": obj,
     }
     return render(request, "confirm_delete.html", context)
 
@@ -69,8 +79,15 @@ def comment_thread(request, id):
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
-
+    profile = 'admin'
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user = request.user.id)
+    staff = "no"
+    if request.user.is_staff or request.user.is_superuser:
+        staff = "yes"
     context = {
+        "staff":staff,
+        "profile":profile,
         "comment": obj,
         "form": form,
     }

@@ -1,4 +1,7 @@
 from django import forms
+from pagedown.widgets import PagedownWidget
+from .models import Profile
+from django.forms import CharField
 from django.contrib.auth import (
     authenticate,
     get_user_model,
@@ -8,6 +11,10 @@ from django.contrib.auth import (
 
 
 User = get_user_model()
+
+class ProfileForm(forms.Form):
+    school = forms.CharField()
+    birthday = forms.DateField(widget=forms.SelectDateWidget)
 
 class UserLoginForm(forms.Form):
     username = forms.CharField()

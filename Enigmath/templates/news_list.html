@@ -17,15 +17,16 @@
                 <a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a> 
                 <small>{{ obj.publish }}</small>
             </h3>
-            {% if see_delete_button == "yes" %} 
-                <a href='{{ obj.get_delete_url }}'>Delete</a>
+            {% if staff == "yes" %} 
+                <a href='{{ obj.get_delete_url }}'>Delete</a> |
+                <a href='{{ obj.get_update_url }}'>Edit</a>
             {% endif %}
             
 
             
             {% if obj.user.get_full_name %}<p>Author: {{ obj.user.get_full_name }}</p>{% endif %}
             
-            <p>{{ obj.get_markdown|truncatechars_html:70}}</p>
+            <p>{{ obj.get_markdown|truncatechars_html:20}}</p>
 
             {% if obj.image %}
                 <img src='{{ obj.image.url }}'/>
@@ -38,7 +39,7 @@
                 <a href=""><i class="fas fa-caret-down like_btn"></i></a> 
             </div>
             <a class="btn btn-info" href="{{ obj.get_absolute_url }}">View Post</a>
-            <a class="btn btn-default" href="{{ obj.get_absolute_url }}">See {{ obj.comments.count }} comment{% if obj.comments.count > 1 or obj.comments.count == 0 %}s{% endif %}</a>
+            <a class="btn btn-default" href="{{ obj.get_absolute_url }}">{% if obj.comments.count == 0 %}Make first comment{% endif %} {% if obj.comments.count > 0 %}{{ obj.comments.count }} comment{% if obj.comments.count > 1 %}s{% endif %}{% endif %}</a>
           
           </div>
         </div>

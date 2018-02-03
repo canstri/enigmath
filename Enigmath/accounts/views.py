@@ -5,9 +5,71 @@ from django.contrib.auth import (
     logout,
 
     )
+
+from urllib.parse import quote_plus
+
+from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+
+from django.contrib.auth.models import User
+
 from django.shortcuts import render, redirect
 
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, ProfileForm
+from .models import Profile
+from comments.models import Comment
+
+
+
+def account_view(request, user = None):
+    user = User.objects.get(username = user)
+    profile = Profile.objects.get(user = user)
+    school = profile.school
+    birthday = profile.birthdate
+    rating = profile.rating
+
+    initial_data = {
+            "school": school,
+            "birthday": birthday,
+    }
+
+    form = ProfileForm(request.POST or None, initial = initial_data)
+
+
+    if form.is_valid():
+        school = form.cleaned_data.get('school')
+        birthday = form.cleaned_data.get('birthday')
+    
+    status = "user"    
+    if user.is_staff:
+        status = "staff"
+    
+    if user.is_superuser:
+        status = "superuser"
+    staff = "no"
+    if request.user.is_staff or request.user.is_superuser:
+        staff = "yes"
+
+    if request.user.is_authenticated:
+        yourprofile = Profile.objects.get(user = request.user.id)
+    context = {
+        "staff":staff,
+        "user":request.user,
+        "profile":yourprofile, #abc
+        "hisprofile": profile.user, #admin
+        "status":status,
+        "school": school,
+        "birthday": birthday,
+        "rating": rating,
+  #      "comments": profile.comments,
+        "form":form,
+    }
+    return render(request, "profile.html", context)
 
 def login_view(request):
     next = request.GET.get('next')

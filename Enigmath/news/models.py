@@ -51,11 +51,13 @@ class Post(models.Model):
     def get_absolute_url(self):
         if not self.slug:
             self.slug = slugify(translit(self.title, 'ru', reversed=True))
-            print("dedede") 
         return reverse("news:detail", kwargs={"slug": self.slug})
     
     def get_delete_url(self):
         return reverse("news:delete", kwargs={"slug": self.slug})
+
+    def get_update_url(self):
+        return reverse("news:update", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = ["-timestamp", "-updated"]
@@ -66,6 +68,11 @@ class Post(models.Model):
     @property
     def comments(self):
         qs = Comment.objects.filter_by_instance(self)
+        return qs
+
+    @property
+    def comments_parents(self):
+        qs = Comment.objects.filter_by_instance_childs(self)
         return qs
 
     @property

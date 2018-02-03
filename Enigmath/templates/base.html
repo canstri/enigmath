@@ -15,10 +15,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-
-
-
-<!-- Optional theme -->
+	
+	<link href="https://fonts.googleapis.com/css?family=Anton|Francois+One|Kanit|Oswald" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -29,47 +27,35 @@
 </head>
 
 <body>
-	
-			<header>
-			
-			<!-- MENU BLOCK -->
+	<header>
 			<div class="menu_block">
-			
-				<!-- CONTAINER -->
-				<div class="container clearfix">
-					
-					<!-- LOGO -->
-					
-					<div class="logo">
-						<a href='{% url "main" %}' >E n i g m a t h</a>
-					</div><!-- //LOGO -->
-					
-					
-					<!-- MENU -->
-					<div class="pull-right">
-						<nav class="navmenu center">
+				<div class="container">
+					<div>
+						<nav class="navmenu">
 							<ul>
-								<li class="btn-menu-e"><a href='{% url "news:list" %}' >News</a></li>
-								{% if see_delete_button == "yes" %} 
-					                <li class="btn-menu-e"><a href='{% url "news:create" %}' >Create Post</a></li>
+								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >News</a></li>
+								{% if staff == "yes" %} 
+					                <li class="btn-menu-e pull-left"><a href='{% url "news:create" %}' >Create Post</a></li>
 					            {% endif %}
-								<li class="btn-menu-e last"><a href="#contacts" >Contacts</a></li>
-								{% if not request.user.is_authenticated %}
-						        <li class='pull-right'><a href='{% url "register" %}'>Register</a></li>
-						        <li class='pull-right'><a href='{% url "login" %}'>Login</a></li>
-						        {% else %}
-						        <li class='pull-right'><a href='{% url "logout" %}'>Logout</a></li>
-						        {% endif %}
-														
+					            <li class="btn-menu-e last pull-left"><a href="#contacts" >Contacts</a></li>
+
+								{% if request.user.is_authenticated %}		
+									<li class='pull-right'><a href='{% url "logout" %}'><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+									<li class='pull-right'><a href='{{ profile.get_absolute_url }}'><i class="fas fa-user"></i> {{ user }}</a></li>
+								{% else %}
+									<li class='pull-right'><a href='{% url "register" %}'>Sign up</a></li>
+									<li class='pull-right'><a href='{% url "login" %}'><i class="fas fa-sign-in-alt"></i> Login</a></li>
+								{% endif %}					
 							</ul>
+
+							<div class="logo col-sm-5 col-sm-offset-2">
+								<a href='{% url "main" %}' >E n i g m a t h</a>
+							</div><!-- //LOGO -->
 						</nav>
 					</div><!-- //MENU -->
 				</div><!-- //MENU BLOCK -->
 			</div><!-- //CONTAINER -->
 		</header><!-- //HEADER -->
-
-
-
 	<div id="fb-root"></div>
 
 <script type="text/javascript" src="https://vk.com/js/api/share.js?95" charset="windows-1251"></script>
