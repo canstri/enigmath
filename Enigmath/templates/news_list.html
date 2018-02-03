@@ -3,7 +3,7 @@
 
 
 <div class='col-sm-7 col-sm-offset-1'>
-    <h1 class="main-h1">{{ title }}</h1>
+    <h3 class="main-h1">{{ title }}</h1>
 
     {% for obj in object_list %}
     <div class="row">
@@ -31,7 +31,14 @@
                 <img src='{{ obj.image.url }}'/>
             {% endif %}
             <p><br></p>
-            <a href="{{ obj.get_absolute_url }}">{{ obj.comments.count }} Comment{% if obj.comments.count > 1 or obj.comments.count == 0 %}s{% endif %}</a>
+
+            <div class='' >
+                <p class="likes_count">{{ obj.likes }} </p>
+                <a href=""><i class="fas fa-caret-up like_btn"></i></a> 
+                <a href=""><i class="fas fa-caret-down like_btn"></i></a> 
+            </div>
+            <a class="btn btn-info" href="{{ obj.get_absolute_url }}">View Post</a>
+            <a class="btn btn-default" href="{{ obj.get_absolute_url }}">See {{ obj.comments.count }} comment{% if obj.comments.count > 1 or obj.comments.count == 0 %}s{% endif %}</a>
           
           </div>
         </div>

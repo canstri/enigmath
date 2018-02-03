@@ -77,7 +77,6 @@ def news_detail(request, slug=None):
                             parent = parent_obj,
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
-
     context = {
         "title": instance.title,
         "instance": instance,
@@ -117,7 +116,7 @@ def news_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
 
-
+    likes = Post.likes
     context = {
         "object_list": queryset, 
         "title": "News",

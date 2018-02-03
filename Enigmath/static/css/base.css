@@ -11,6 +11,20 @@ body{
   color: blue;
 }
 
+.like_btn{
+  font-size:2em; 
+  color: lightgrey;
+}
+
+.like_btn:hover{
+  color: grey;
+}
+.likes_count{
+  display: inline-block;
+  color: grey;
+  font-size: 1.5em;
+}
+
 .share_buttons{
   display:inline-block;
 }
@@ -31,7 +45,7 @@ h1 {
 
 }
 .logo-k a{
-	border: 1px solid white;
+	  border: 1px solid white;
     padding: 14px 70px;
     font-size: 24px;
     font-weight: 500 !important;
@@ -46,8 +60,7 @@ img{
 }
 
 .enigmath-logo{
-	width: 348px;
-	height: 53px;
+	text-decoration: none
 }
 
 .content-container{

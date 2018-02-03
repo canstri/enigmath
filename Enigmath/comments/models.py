@@ -49,6 +49,7 @@ class Comment(models.Model):
     def children(self): #replies
         return Comment.objects.filter(parent=self)
 
+
     @property
     def is_parent(self):
         if self.parent is not None:

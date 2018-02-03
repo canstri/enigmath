@@ -41,6 +41,8 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    likes = models.IntegerField(default=0)
+
     objects = PostManager()
 
     def __unicode__(self):
@@ -63,8 +65,7 @@ class Post(models.Model):
 
     @property
     def comments(self):
-        instance = self
-        qs = Comment.objects.filter_by_instance(instance)
+        qs = Comment.objects.filter_by_instance(self)
         return qs
 
     @property
