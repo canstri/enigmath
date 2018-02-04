@@ -10,11 +10,12 @@
 
 <div class='col-sm-6'>
 	<h1>Create Post</h1>
-
+<div class="col-sm-11">
 	<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
 		{{ form|crispy }}
 		<input type='submit' class='btn btn-primary' value='Create Post' />
 	</form>
+</div>
 </div>
 
 <div class="col-sm-6">

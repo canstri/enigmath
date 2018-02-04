@@ -79,7 +79,7 @@
 
 		        {% for child_comment in comment.children %}
 		                <blockquote>
-			                <a href="">{{ child_comment.user }}</a>
+			                <a href="{{ child_comment.get_profile }}">{{ child_comment.user }}</a>
 			                <p>{{ child_comment.content }}</p>
 			                <div class="small-details">{{ child_comment.timestamp|timesince }} ago
 				                <a class='comment-children-reply-btn' href='#'>

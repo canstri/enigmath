@@ -32,18 +32,23 @@ def account_view(request, user = None):
     school = profile.school
     birthday = profile.birthdate
     rating = profile.rating
+    pid = profile.id
+    user_id  = profile.user_id
 
     initial_data = {
             "school": school,
-            "birthday": birthday,
+            "birthdate": birthday,
     }
 
     form = ProfileForm(request.POST or None, initial = initial_data)
 
 
     if form.is_valid():
-        school = form.cleaned_data.get('school')
-        birthday = form.cleaned_data.get('birthday')
+        profile = form.save(commit=False)
+        profile.rating = rating
+        profile.id = pid
+        profile.user_id = user_id
+        profile.save()
     
     status = "user"    
     if user.is_staff:
@@ -63,9 +68,9 @@ def account_view(request, user = None):
         "profile":yourprofile, #abc
         "hisprofile": profile.user, #admin
         "status":status,
-        "school": school,
-        "birthday": birthday,
         "rating": rating,
+        "school": profile.school,
+        "birthday": profile.birthdate,
   #      "comments": profile.comments,
         "form":form,
     }

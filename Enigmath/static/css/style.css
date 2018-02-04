@@ -246,6 +246,7 @@ header {
 
 /* __________ Logo __________ */
 .logo {
+	margin-top: -10px;
 	position: relative;
 }
 .logo a {

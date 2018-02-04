@@ -26,7 +26,8 @@
 		{% if user == hisprofile %}
 			<div>
 				<form method='POST' action=''>{% csrf_token %}
-					{{ form|crispy }}
+					{{ form }}
+					<br><br><br>
 					<input type='submit' class='btn btn-primary' value='Save' />
 				</form>
 			</div>
