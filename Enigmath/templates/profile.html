@@ -12,48 +12,36 @@
 {% endblock head_extra %}
 
 
-
-
 {% block content %}
-<div class='col-sm-7 col-sm-offset-1'>
-	<h3>{{ hisprofile }} </h3>
-	<h4>{{ status }} </h4>
-	<hr>
-		<strong>Rating: {{ rating }}</strong>
-		<br><br>
-
-
-		{% if user == hisprofile %}
-			<div>
-				<form method='POST' action=''>{% csrf_token %}
-					{{ form }}
-					<br><br><br>
-					<input type='submit' class='btn btn-primary' value='Save' />
-				</form>
-			</div>
-		{% else %}
-			<strong>School: {{ school }}</strong>
-			 <br><br>
-			<strong>Birthday: {{ birthday }}</strong>	
+	<div class="col-sm-4 col-sm-offset-1">
+		<h3>{{ hisprofile.user }} </h3>
+		<h4>{{ status }} </h4>
+		<br>
 	
+		{% if hisprofile.image %}
+			<img src={{ hisprofile.image.url }}>
 		{% endif %}
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	<div class="col-sm-4 ">
+			<br><br>
+			<strong >Rating: {{ rating }}</strong>
+			<br><br>	
+			{% if user == hisprofile.user %}
+				<div>
+					<form method='POST' action='' enctype="multipart/form-data">{% csrf_token %}
+						{{ form|crispy }}
+						<br>
+						<input type='submit' class='btn btn-primary' value='Save' />
+					</form>
+				</div>
+			{% else %}
+				<strong>School: {{ school }}</strong>
+				 <br><br>
+				<strong>Birthday: {{ birthday }}</strong>
 
-		<hr>
-		<br><br>
+			{% endif %}
 
-		<br><br>
-		<br><br>
-		<br><br>
-		<br><br>
-		<br><br>
-		<br><br>
-
-
-
-
-
+	</div>
 	
-	
-</div>
-
 {% endblock content %}

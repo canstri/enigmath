@@ -34,20 +34,22 @@ def account_view(request, user = None):
     rating = profile.rating
     pid = profile.id
     user_id  = profile.user_id
+    image = profile.image
 
     initial_data = {
             "school": school,
             "birthdate": birthday,
+            "image":image,
     }
 
-    form = ProfileForm(request.POST or None, initial = initial_data)
+    form = ProfileForm(request.POST or None, request.FILES or None, initial = initial_data)
 
 
     if form.is_valid():
         profile = form.save(commit=False)
-        profile.rating = rating
         profile.id = pid
         profile.user_id = user_id
+        messages.success(request, "Successfully Updated")
         profile.save()
     
     status = "user"    
@@ -62,11 +64,12 @@ def account_view(request, user = None):
 
     if request.user.is_authenticated:
         yourprofile = Profile.objects.get(user = request.user.id)
+    
     context = {
         "staff":staff,
         "user":request.user,
         "profile":yourprofile, #abc
-        "hisprofile": profile.user, #admin
+        "hisprofile": profile, #admin
         "status":status,
         "rating": rating,
         "school": profile.school,

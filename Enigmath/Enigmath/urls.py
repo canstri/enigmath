@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^logout/', logout_view, name='logout'),
     url(r'^news/', include("news.urls", namespace='news')),
     url(r'^profile/', include("accounts.urls", namespace='accounts')),
-    url(r'^', main_view, name='main'),
+    url(r'^', include("main.urls", namespace='main')),
 ]
 
 if settings.DEBUG:

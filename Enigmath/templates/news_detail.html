@@ -13,9 +13,8 @@
 <div class='col-sm-7 col-sm-offset-1'>
 	<h1>{{ title }} <small>{{ instance.publish }}</small></h1>
 	
-	{% if instance.user.get_full_name %}
-		<p>Author: {{ instance.user.get_full_name }}</p>
-	{% endif %}
+
+		<p>Author: <a href="{{ instance.get_author }}">{{ instance.user.username }}</a> </p>
 
 	{% if staff == "yes" %} 
         <a href='{{ instance.get_delete_url }}'>Delete</a> |
@@ -56,7 +55,7 @@
         </p>
         <hr/>
 
-        {% for comment in comments %}
+        {% for comment in comments_parents %}
 			<blockquote>
 				<a href="{{ comment.get_profile }}">{{ comment.user }}</a>
  		        <p>{{ comment.content }}</p>
@@ -69,7 +68,7 @@
 			        {% if request.user == comment.user %} | <a href='{{ comment.get_delete_url }}'>Delete</a>{% endif %}
 		        </div>
 		        <div class='comment-reply'>  
-		        	<form method="POST" action="."> {% csrf_token %}
+		        	<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
 		                {{ comment_form }}
 		                <br><br>
 		                <input type='hidden' name='parent_id' value='{{ comment.id }}'>

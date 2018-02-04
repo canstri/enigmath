@@ -14,18 +14,15 @@ from django.contrib.auth import (
 
 User = get_user_model()
 class ProfileForm(forms.ModelForm):
-    user = 'kek'
-    rating = 1
     school = forms.CharField(required=False)
-    user_id = 1
     birthdate = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(1950, 2018)))
+    image = forms.FileField()
     class Meta:
         model = Profile
         fields = [
-       #     "user",
-        #    "rating",
             "school",
             "birthdate",
+            "image",
         ]
 
 class UserLoginForm(forms.Form):

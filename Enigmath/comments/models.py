@@ -26,6 +26,11 @@ class CommentManager(models.Manager):
         content_type = ContentType.objects.get_for_model(instance.__class__)
         return super(CommentManager, self).filter(content_type=content_type, object_id= instance.id).exclude(parent = None)
 
+    def filter_by_instance_parents(self, instance):
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return super(CommentManager, self).filter(content_type=content_type, object_id= instance.id).filter(parent = None)
+
+
     def filter_by_author(self, author):
         return super(CommentManager, self).filter(user= author)
 

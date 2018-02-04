@@ -18,13 +18,25 @@ from django.db.models.signals import post_save
 
 from pagedown.widgets import PagedownWidget
 
+def upload_location(instance, filename):
+    ProfileModel = instance.__class__
+    new_id = ProfileModel.objects.order_by("id").last().id + 1
+    return "%s" %(filename)
  
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     rating = models.DecimalField(null = True, max_digits=3, decimal_places=0)
     school = models.TextField(blank = True,null = True)
     birthdate = models.DateField(null = True, blank = True)
-
+    image = models.ImageField(upload_to=upload_location, 
+            null=True, 
+            blank=True, 
+            width_field="width_field", 
+            height_field="height_field", 
+            default='q.jpg')
+    height_field = models.IntegerField(default=0)
+    width_field = models.IntegerField(default=0)
+    
 
     def get_absolute_url(self):
         return reverse("accounts:profile", kwargs={"user": self.user})

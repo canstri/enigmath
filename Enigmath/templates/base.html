@@ -32,12 +32,25 @@
 				<div class="container">
 					<div>
 						<nav class="navmenu">
+
 							<ul>
+								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >Olympiads</a></li>
+								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >Ratings</a></li>
+								
 								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >News</a></li>
 								{% if staff == "yes" %} 
 					                <li class="btn-menu-e pull-left"><a href='{% url "news:create" %}' >Create Post</a></li>
-					            {% endif %}
-					            <li class="btn-menu-e last pull-left"><a href="#contacts" >Contacts</a></li>
+					                
+					                <div class="logo col-sm-4 col-sm-offset-0 ">
+										<a href='{% url "main:home" %}' >E n i g m a t h</a>
+									</div><!-- //LOGO -->
+
+					            {% else %}
+						            <div class="logo col-sm-4 col-sm-offset-1 ">
+										<a href='{% url "main:home" %}' >E n i g m a t h</a>
+									</div><!-- //LOGO -->
+								{% endif %}
+					            
 
 								{% if request.user.is_authenticated %}		
 									<li class='pull-right'><a href='{% url "logout" %}'><i class="fas fa-sign-out-alt"></i>Logout</a></li>
@@ -45,12 +58,14 @@
 								{% else %}
 									<li class='pull-right'><a href='{% url "register" %}'><i class="fas fa-user-plus"></i> Sign up</a></li>
 									<li class='pull-right'><a href='{% url "login" %}'><i class="fas fa-sign-in-alt"></i> Login</a></li>
-								{% endif %}					
+
+								{% endif %}	
+								<li class="btn-menu-e last pull-right"><a href='{% url "main:contacts" %}' >Contacts</a></li>
+								<li class="btn-menu-e last pull-right"><a href='{% url "main:contacts" %}' >School</a></li>
+
 							</ul>
 
-							<div class="logo col-sm-5 col-sm-offset-2">
-								<a href='{% url "main" %}' >E n i g m a t h</a>
-							</div><!-- //LOGO -->
+							
 						</nav>
 					</div><!-- //MENU -->
 				</div><!-- //MENU BLOCK -->

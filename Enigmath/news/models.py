@@ -65,14 +65,22 @@ class Post(models.Model):
     def get_markdown(self):
         return mark_safe(markdown(self.content))
 
+    def get_author(self):
+        return reverse("accounts:profile", kwargs={"user":self.user})
+
     @property
     def comments(self):
         qs = Comment.objects.filter_by_instance(self)
         return qs
 
     @property
-    def comments_parents(self):
+    def comments_childs(self):
         qs = Comment.objects.filter_by_instance_childs(self)
+        return qs
+
+    @property
+    def comments_parents(self):
+        qs = Comment.objects.filter_by_instance_parents(self)
         return qs
 
     @property

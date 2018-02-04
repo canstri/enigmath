@@ -97,6 +97,7 @@ def news_detail(request, slug=None):
         "instance": instance,
         "share_string": share_string,
         "comments": instance.comments,
+        "comments_parents": instance.comments_parents,
         "comment_form":form,
         "post_url":instance.get_absolute_url(),
         "staff":staff,
