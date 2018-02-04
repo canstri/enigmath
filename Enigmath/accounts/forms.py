@@ -16,7 +16,7 @@ User = get_user_model()
 class ProfileForm(forms.ModelForm):
     school = forms.CharField(required=False)
     birthdate = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(1950, 2018)))
-    image = forms.FileField()
+    image = forms.FileField(required=False)
     class Meta:
         model = Profile
         fields = [

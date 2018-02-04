@@ -32,8 +32,7 @@ class Profile(models.Model):
             null=True, 
             blank=True, 
             width_field="width_field", 
-            height_field="height_field", 
-            default='q.jpg')
+            height_field="height_field",)
     height_field = models.IntegerField(default=0)
     width_field = models.IntegerField(default=0)
     
