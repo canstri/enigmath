@@ -5,8 +5,11 @@
 <div class='col-sm-7 col-sm-offset-1'>
     <h3 class="main-h1">{{ title }}</h1>
 
-    <h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "news:create" %}' >Create Post</a></h3>
+    {% if staff == "yes" %} 
+        <h4 style="color: red"> Staff only: <a class="btn btn-info" href='{% url "news:create" %}' >Create Post</a></h3>
+    {% endif %}
     <br><br>
+
                                 
     {% for obj in object_list %}
     <div class="row">

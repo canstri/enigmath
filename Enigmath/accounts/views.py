@@ -101,6 +101,7 @@ def register_view(request):
     if form.is_valid():
         user = form.save(commit=False)
         password = form.cleaned_data.get('password')
+        password2 = form.cleaned_data.get('password2')
         user.set_password(password)
         user.save()
         new_user = authenticate(username=user.username, password=password)

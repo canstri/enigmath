@@ -11,7 +11,9 @@
 
 {% block content %}
 <div class='col-sm-10 col-sm-offset-1'>
-	<h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Olympiad</a></h3>
+    {% if staff == "yes" %} 
+	   <h4 style="color: red"> Staff only: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Olympiad</a></h3>
+    {% endif %}   
 	<div class="col-sm-offset-6">
         <h2>{{ instance.title }} </h2>
         {% if staff == "yes" %} 
@@ -20,11 +22,11 @@
         {% endif %}
     </div>
 
-    <hr/>
     <br/>
 
     <div>
 
+        <hr/>        
         {% for problem in problems %}
 			<a href='{{ problem.get_absolute_url }}'><h4>{{ problem.title }}</h4></a>
 	        {% if staff == "yes" %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}

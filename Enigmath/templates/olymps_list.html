@@ -4,7 +4,9 @@
 
 <div class='col-sm-7 col-sm-offset-1'>
     <h3 class="main-h1">{{ title }}</h1>
-    <h4 style="color: red"> Staff only: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Olympiad</a></h3>
+    {% if staff == "yes" %} 
+        <h4 style="color: red"> Staff only: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Olympiad</a></h3>
+    {% endif %}
 
     {% for obj in object_list %}
     <div class="row">
