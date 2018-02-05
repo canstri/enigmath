@@ -34,23 +34,14 @@
 						<nav class="navmenu">
 
 							<ul>
-								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >Olympiads</a></li>
+								<li class="btn-menu-e pull-left"><a href='{% url "olymps:list" %}' >Olympiads</a></li>
 								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >Ratings</a></li>
 								
 								<li class="btn-menu-e pull-left"><a href='{% url "news:list" %}' >News</a></li>
-								{% if staff == "yes" %} 
-					                <li class="btn-menu-e pull-left"><a href='{% url "news:create" %}' >Create Post</a></li>
-					                
-					                <div class="logo col-sm-4 col-sm-offset-0 ">
+								    <div class="logo col-sm-4 col-sm-offset-1 ">
 										<a href='{% url "main:home" %}' >E n i g m a t h</a>
 									</div><!-- //LOGO -->
-
-					            {% else %}
-						            <div class="logo col-sm-4 col-sm-offset-1 ">
-										<a href='{% url "main:home" %}' >E n i g m a t h</a>
-									</div><!-- //LOGO -->
-								{% endif %}
-					            
+								
 
 								{% if request.user.is_authenticated %}		
 									<li class='pull-right'><a href='{% url "logout" %}'><i class="fas fa-sign-out-alt"></i>Logout</a></li>

@@ -11,6 +11,10 @@ body{
   color: blue;
 }
 
+.olymp_image{
+  height: 100px;
+}
+
 #id_birthday_day{
   width:42px;
   margin:0;

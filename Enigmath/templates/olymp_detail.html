@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+
+
+
+{% block content %}
+<div class='col-sm-10 col-sm-offset-1'>
+	<h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Post</a></h3>
+	<div class="col-sm-offset-6">
+        <h2>{{ instance.title }} </h2>
+        {% if staff == "yes" %} 
+	        <a href='{{ instance.get_update_url }}'>Edit</a> |
+	        <a href='{{ instance.get_delete_url }}'>Delete</a>
+        {% endif %}
+    </div>
+
+    <hr/>
+    <br/>
+
+    <div>
+
+        {% for problem in problems %}
+			<p>{{ problem.content }}</p>
+	        {% if staff == "yes" %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
+	        <hr/>
+        {% endfor %}
+		<a class="btn btn-info" href="">Create problem</a>
+        <br><br><br><br>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock content %}

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'comments',
     'news',
     'accounts',
+    'olymps',
+    'problems',
     'main',
 ]
 

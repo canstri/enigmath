@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^logout/', logout_view, name='logout'),
     url(r'^news/', include("news.urls", namespace='news')),
     url(r'^profile/', include("accounts.urls", namespace='accounts')),
+    url(r'^olympiads/', include("olymps.urls", namespace='olymps')),
+    url(r'^problems/', include("problems.urls", namespace='problems')),
     url(r'^', include("main.urls", namespace='main')),
 ]
 

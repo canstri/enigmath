@@ -11,6 +11,8 @@
 
 {% block content %}
 <div class='col-sm-7 col-sm-offset-1'>
+	<h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "news:create" %}' >Create Post</a></h3>
+    <br><br>
 	<h1>{{ title }} <small>{{ instance.publish }}</small></h1>
 	
 
