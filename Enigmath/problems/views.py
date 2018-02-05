@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from accounts.models import Profile
 from .forms import ProblemForm
 from .models import Problem
+from olymps.models import Olymp
 
 
 def problem_delete(request, id):
@@ -19,8 +20,10 @@ def problem_delete(request, id):
         return HttpResponse("You do not have permission to do this.")
 
     if request.method == "POST":
+        parent_obj_url = obj.content_object.get_absolute_url()
         obj.delete()
         messages.success(request, "This has been deleted.")
+        return HttpResponseRedirect(parent_obj_url)
     
     profile = 'admin'
     if request.user.is_authenticated:
@@ -74,4 +77,4 @@ def problem_thread(request, id):
         "problem": obj,
         "form": form,
     }
-    return render(request, "problem_separate.html", context)
+    return render(request, "problem.html", context)

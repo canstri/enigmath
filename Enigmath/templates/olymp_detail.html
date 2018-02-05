@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class='col-sm-10 col-sm-offset-1'>
-	<h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Post</a></h3>
+	<h4 style="color: red"> For staff: <a class="btn btn-info" href='{% url "olymps:create" %}' >Create Olympiad</a></h3>
 	<div class="col-sm-offset-6">
         <h2>{{ instance.title }} </h2>
         {% if staff == "yes" %} 
@@ -26,13 +26,22 @@
     <div>
 
         {% for problem in problems %}
-			<p>{{ problem.content }}</p>
+			<a href='{{ problem.get_absolute_url }}'><h4>{{ problem.title }}</h4></a>
 	        {% if staff == "yes" %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
 	        <hr/>
         {% endfor %}
-		<a class="btn btn-info" href="">Create problem</a>
-        <br><br><br><br>
+		<!--<a class="btn btn-info" href="">Create problem</a>-->
+        <br><br>
     </div>
+    {% if staff == "yes" %} 
+        
+        <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+            {{ problem_form|crispy }}
+            <br><br>
+            <input type='submit' class='btn btn-info' value='Create problem' >
+        </form>
+    {% endif %}
+        <br><br><br><br><br><br><br><br><br><br><br><br>
 
 </div>
 

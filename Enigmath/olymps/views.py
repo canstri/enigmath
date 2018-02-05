@@ -66,6 +66,7 @@ def olymp_detail(request, slug=None):
         content_type = ContentType.objects.get(model=form.cleaned_data.get("content_type"))
         obj_id = form.cleaned_data.get('object_id')
         content_data = form.cleaned_data.get("content")
+        problem_title = form.cleaned_data.get("title")
         
 
         new_problem, created = Problem.objects.get_or_create(
@@ -73,6 +74,7 @@ def olymp_detail(request, slug=None):
                             content_type= content_type,
                             object_id = obj_id,
                             content = content_data,
+                            title = problem_title,
                         )
         return HttpResponseRedirect(new_problem.content_object.get_absolute_url())
     
@@ -142,7 +144,7 @@ def olymp_update(request, slug=None):
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
     instance = get_object_or_404(Olymp, slug=slug)
-    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
+    form = OlympForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
@@ -166,7 +168,7 @@ def olymp_update(request, slug=None):
 
 def olymp_delete(request, slug=None):
     try:
-        instance = Post.objects.get(slug=slug)
+        instance = Olymp.objects.get(slug=slug)
     except:
         raise Http404
 
