@@ -69,7 +69,8 @@
 			        	Reply
 			        </a>
 
-			        {% if request.user == comment.user %} | <a href='{{ comment.get_delete_url }}'>Delete</a>{% endif %}
+			        {% if request.user == comment.user or staff == "yes" %} | <a href='{{ comment.get_delete_url }}'>Delete</a>
+			        {% endif %}
 		        </div>
 		        <div class='comment-reply'>  
 		        	<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
@@ -88,7 +89,7 @@
 				                <a class='comment-children-reply-btn' href='#'>
 				        			Reply
 				        		</a>
-			                	{% if request.user == child_comment.user %} 
+			                	{% if request.user == child_comment.user  or staff == "yes"%} 
                     		      | <a href='{{ child_comment.get_delete_url }}'>Delete</a>
                         		{% endif %}
 			                </div>

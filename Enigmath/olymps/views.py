@@ -47,7 +47,7 @@ def olymp_create(request):
 def olymp_detail(request, slug=None):
     instance = get_object_or_404(Olymp, slug=slug)
     if instance.publish > timezone.now().date() or instance.draft:
-        if not request.user.is_staff or not request.user.is_superuser:
+        if not request.user.is_staff and not request.user.is_superuser:
             raise Http404
     share_string = quote_plus(instance.title)
 
@@ -141,7 +141,7 @@ def olymps_list(request):
 
 
 def olymp_update(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
     instance = get_object_or_404(Olymp, slug=slug)
     form = OlympForm(request.POST or None, request.FILES or None, instance=instance)
@@ -172,12 +172,9 @@ def olymp_delete(request, slug=None):
     except:
         raise Http404
 
-    if not request.user.is_staff or not request.user.is_superuser:
-        reponse.status_code = 403
-        return HttpResponse("You do not have permission to do this.")
+    if not request.user.is_staff and not request.user.is_superuser:
+        raise Http404
 
-    for olymp in instance.olymps:
-        olymp.delete()
 
     if request.method == "POST":
         instance.delete()

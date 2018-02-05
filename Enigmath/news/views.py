@@ -18,7 +18,7 @@ from accounts.models import Profile
 
 
 def news_create(request):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
         
     form = PostForm(request.POST or None, request.FILES or None)
@@ -155,7 +155,7 @@ def news_list(request):
 
 
 def news_update(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
     instance = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
@@ -186,7 +186,7 @@ def news_delete(request, slug=None):
     except:
         raise Http404
 
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         reponse.status_code = 403
         return HttpResponse("You do not have permission to do this.")
 
