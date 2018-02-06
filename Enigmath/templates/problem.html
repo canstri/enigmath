@@ -15,15 +15,16 @@
 
 
 <div class='col-sm-12 col-sm-offset-1'>
-
+		<a class="btn btn-default" href="{{ problem.content_object.get_absolute_url }}">
+			<i class="fas fa-chevron-circle-left"></i> List of problems 
+		</a>
             <h4>{{ problem.title }}</h4>
             Author: <a href="{{ problem.get_profile }}">{{ problem.user }}</a>
 
             <p>{{ problem.content }}</p>
             <div class="small-details">
-              {{ problem.timestamp|timesince }} ago 
-
-              {% if request.user == problem.user %} | <a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
+            
+              {% if request.user == problem.user %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
             </div>
         <hr/>
         <br><br><br><br>

@@ -30,7 +30,7 @@ class ProblemManager(models.Manager):
         return super(ProblemManager, self).filter(content_type=content_type, object_id= instance.id)
 
     def filter_by_author(self, author):
-        return super(ProblemManager, self).filter(user= author)
+        return super(ProblemManager, self).filter(user=author)
 
 
 class Problem(models.Model):

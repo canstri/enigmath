@@ -22,6 +22,7 @@ from django.shortcuts import render, redirect
 
 from .forms import UserLoginForm, UserRegisterForm, ProfileForm
 from .models import Profile
+from problems.models import Problem
 from comments.models import Comment
 
 
@@ -35,6 +36,8 @@ def account_view(request, user = None):
     pid = profile.id
     user_id  = profile.user_id
     image = profile.image
+
+    problem_set = Problem.objects.filter_by_author(user)
 
     initial_data = {
             "school": school,
@@ -76,6 +79,7 @@ def account_view(request, user = None):
         "birthday": profile.birthdate,
   #      "comments": profile.comments,
         "form":form,
+        "problem_set":problem_set,
     }
     return render(request, "profile.html", context)
 

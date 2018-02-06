@@ -18,7 +18,7 @@ from accounts.models import Profile
 
 
 def olymp_create(request):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
         
     form = OlympForm(request.POST or None, request.FILES or None)
@@ -67,8 +67,6 @@ def olymp_detail(request, slug=None):
         obj_id = form.cleaned_data.get('object_id')
         content_data = form.cleaned_data.get("content")
         problem_title = form.cleaned_data.get("title")
-        
-
         new_problem, created = Problem.objects.get_or_create(
                             user = request.user,
                             content_type= content_type,
