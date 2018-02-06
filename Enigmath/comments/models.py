@@ -59,6 +59,9 @@ class Comment(models.Model):
     def get_delete_url(self):
         return reverse("comments:delete", kwargs={"id": self.id})
 
+    def author(self): #replies
+        return Profile.objects.filter(user=self.user)
+
 
     def children(self): #replies
         return Comment.objects.filter(parent=self)

@@ -88,7 +88,7 @@ def news_detail(request, slug=None):
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
     
-    profile = 'admin'
+
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user.id)
     
