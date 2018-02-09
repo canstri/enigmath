@@ -12,6 +12,7 @@ from .forms import OlympForm
 from .models import Olymp
 
 from problems.models import Problem
+from problems.models import CheckProblem
 from problems.forms import ProblemForm
 
 from accounts.models import Profile
@@ -28,6 +29,7 @@ def olymp_create(request):
         instance.save()
         messages.success(request, "Successfully Created")
         return HttpResponseRedirect(instance.get_absolute_url())
+    
     staff = "no"
     if request.user.is_staff or request.user.is_superuser:
         staff = "yes"
@@ -74,17 +76,29 @@ def olymp_detail(request, slug=None):
                             content = content_data,
                             title = problem_title,
                         )
+        for p in Profile.objects.filter():
+            c = CheckProblem.objects.get_or_create(
+                user = p.user.id,
+                problem_id = new_problem.id,
+                solved = False,
+            )
         return HttpResponseRedirect(new_problem.content_object.get_absolute_url())
     
     profile = 'admin'
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user.id)
+
+    array_of_user = []
+    for prblm in instance.problems:
+        array_of_user.append([prblm, CheckProblem.objects.filter(user = request.user.id, problem_id = prblm.id)])
+
+    #check_problem = CheckProblem.objects.filter(user = request.user.id)
     
     context = {
         "title": instance.title,
         "instance": instance,
         "share_string": share_string,
-        "problems": instance.problems,
+        "array_of_user": array_of_user,
         "problem_form":form,
         "olymp_url":instance.get_absolute_url(),
         "staff":staff,
@@ -175,6 +189,11 @@ def olymp_delete(request, slug=None):
 
 
     if request.method == "POST":
+        for prblm in Problem.objects.filter(content_object = instance):
+            for checkprblm in CheckProblem.objects.filter(problem_id = prblm.id):
+                checkprblm.delete()
+            prblm.delete()
+
         instance.delete()
         messages.success(request, "Successfully deleted")
         return redirect("olymps:list")

@@ -23,6 +23,8 @@ from django.shortcuts import render, redirect
 from .forms import UserLoginForm, UserRegisterForm, ProfileForm
 from .models import Profile
 from problems.models import Problem
+from problems.models import CheckProblem
+
 from comments.models import Comment
 
 
@@ -110,6 +112,14 @@ def register_view(request):
         user.save()
         new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
+
+        for prblm in Problem.objects.filter():
+            c = CheckProblem.objects.get_or_create(
+                user = user.id,
+                problem_id = prblm.id,
+                solved = False,
+            )
+
         if next:
             return redirect(next)
         return redirect("/")

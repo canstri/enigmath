@@ -60,5 +60,20 @@ class Problem(models.Model):
     def get_profile(self):
         return reverse("accounts:profile", kwargs={"user":self.user})
 
-
     
+
+class CheckProblemManager(models.Manager):
+    def filter_by_problem(self, problem):
+        return super(CheckProblemManager, self).filter(problem_id = problem.id)
+
+
+class CheckProblem(models.Model):
+    user = models.PositiveIntegerField(null = True)
+    problem_id = models.PositiveIntegerField(null = True)
+    solved = models.BooleanField(default=False)    
+
+    objects = CheckProblemManager()
+
+
+
+

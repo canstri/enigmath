@@ -18,7 +18,14 @@
 		<a class="btn btn-default" href="{{ problem.content_object.get_absolute_url }}">
 			<i class="fas fa-chevron-circle-left"></i> List of problems 
 		</a>
-            <h4>{{ problem.title }}</h4>
+            <h4>{{ problem.title }}</h4> 
+
+            {% if check_problem.solved == False %}
+                <h4>Not solved</h4>
+            {% else %}
+                <h4>Solved</h4>
+            {% endif %}
+            
             Author: <a href="{{ problem.get_profile }}">{{ problem.user }}</a>
 
             <p>{{ problem.content }}</p>

@@ -27,16 +27,28 @@
     <div>
 
         <hr/>        
-        {% for problem in problems %}
-			<a href='{{ problem.get_absolute_url }}'><h4>{{ problem.title }}</h4></a>
-	        {% if staff == "yes" %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
+        {% for element_of_user in array_of_user %}  
+			<a href='{{ element_of_user.0.get_absolute_url }}'><h4>{{ element_of_user.0.title }}</h4></a>
+            {% if element_of_user.1.0.solved == False %}
+                <h4>Not solved</h4>
+            {% else %}
+                <h4>Solved</h4>
+            {% endif %}
+
+
+	        
+
+            {% if staff == "yes" %}<a href='{{ element_of_user.0.get_delete_url }}'>Delete</a>{% endif %}
 	        <hr/>
         {% endfor %}
+
+
 		<!--<a class="btn btn-info" href="">Create problem</a>-->
         <br><br>
     </div>
     {% if staff == "yes" %} 
-        
+        <h4 style="color: red"> Staff only</h4><h4>Create new Problem:</h4>
+        <br>        
         <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
             {{ problem_form|crispy }}
             <br><br>

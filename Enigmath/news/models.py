@@ -15,7 +15,6 @@ from transliterate import translit, get_available_language_codes
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
-        # Post.objects.all() = super(PostManager, self).all()
         return super(PostManager, self).filter(draft=False).filter(publish__lte=timezone.now())
 
 
