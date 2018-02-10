@@ -13,7 +13,7 @@ from .models import Olymp
 
 from problems.models import Problem
 from problems.models import CheckProblem
-from problems.forms import ProblemForm
+from problems.forms import CreateProblemForm
 
 from accounts.models import Profile
 
@@ -62,7 +62,7 @@ def olymp_detail(request, slug=None):
     if request.user.is_staff or request.user.is_superuser:
         staff = "yes"
 
-    form = ProblemForm(request.POST or None, initial=initial_data)
+    form = CreateProblemForm(request.POST or None, initial=initial_data)
 
     if form.is_valid():
         content_type = ContentType.objects.get(model=form.cleaned_data.get("content_type"))
@@ -99,7 +99,7 @@ def olymp_detail(request, slug=None):
         "instance": instance,
         "share_string": share_string,
         "array_of_user": array_of_user,
-        "problem_form":form,
+        "create_problem_form":form,
         "olymp_url":instance.get_absolute_url(),
         "staff":staff,
         "profile":profile,

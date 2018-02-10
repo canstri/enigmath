@@ -50,7 +50,7 @@
         <h4 style="color: red"> Staff only</h4><h4>Create new Problem:</h4>
         <br>        
         <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
-            {{ problem_form|crispy }}
+            {{ create_problem_form|crispy }}
             <br><br>
             <input type='submit' class='btn btn-info' value='Create problem' >
         </form>

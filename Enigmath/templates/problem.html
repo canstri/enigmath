@@ -14,7 +14,7 @@
 
 
 
-<div class='col-sm-12 col-sm-offset-1'>
+<div class='col-sm-10 col-sm-offset-1'>
 		<a class="btn btn-default" href="{{ problem.content_object.get_absolute_url }}">
 			<i class="fas fa-chevron-circle-left"></i> List of problems 
 		</a>
@@ -30,11 +30,21 @@
 
             <p>{{ problem.content }}</p>
             <div class="small-details">
-            
               {% if request.user == problem.user %}<a href='{{ problem.get_delete_url }}'>Delete</a>{% endif %}
             </div>
         <hr/>
-        <br><br><br><br>
+        <br><br>
+        <div class="col-sm-5">
+            <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+                {{ solve_problem_form }}
+                <br><br>
+                <input type='submit' class='btn btn-info' value='Submit' >
+            </form>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div class="col-sm-5"><h4>Status: {{ action_check }}</h4></div>
+
+        
 </div>
 
 

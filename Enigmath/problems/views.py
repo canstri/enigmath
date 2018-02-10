@@ -4,11 +4,12 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from accounts.models import Profile
-from .forms import ProblemForm
+from .solve_problem_form import SolveProblemForm
 from .models import Problem
 from .models import CheckProblem
 
 from olymps.models import Olymp
+from lemmas.isequal import isequal
 
 
 def problem_delete(request, id):
@@ -59,19 +60,13 @@ def problem_thread(request, id):
             "content_type": obj.content_type,
             "object_id": obj.object_id
     }
-    form = ProblemForm(request.POST or None, initial=initial_data)
-    if form.is_valid():
-        content_type = ContentType.objects.get(model=form.cleaned_data.get("content_type"))
-        obj_id = form.cleaned_data.get('object_id')
-        content_data = form.cleaned_data.get("content")
 
-        new_problem, created = Problem.objects.get_or_create(
-                            user = request.user,
-                            content_type= content_type,
-                            object_id = obj_id,
-                            content = content_data,
-                        )
-        return HttpResponseRedirect(new_problem.content_object.get_absolute_url())
+    solve_problem_form = SolveProblemForm(request.POST or None)
+    action_check = False
+    if solve_problem_form.is_valid():
+        expr1 = solve_problem_form.cleaned_data.get('expr1')
+        expr2 = solve_problem_form.cleaned_data.get('expr2')
+        action_check = isequal(expr1)
 
     profile = 'admin'
     if request.user.is_authenticated:
@@ -86,7 +81,8 @@ def problem_thread(request, id):
         "staff":staff,
         "profile":profile,
         "problem": obj,
-        "form": form,
+        "solve_problem_form": solve_problem_form,
         "check_problem": check_problem,
+        "action_check":action_check,
     }
     return render(request, "problem.html", context)

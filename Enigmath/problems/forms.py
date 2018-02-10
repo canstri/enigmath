@@ -4,7 +4,7 @@ from .models import Problem
 from django.forms import CharField
 
 
-class ProblemForm(forms.ModelForm):
+class CreateProblemForm(forms.ModelForm):
     content_type = forms.CharField(widget=forms.HiddenInput)
     object_id = forms.IntegerField(widget=forms.HiddenInput)
     content = forms.CharField(label='', widget=forms.Textarea)
