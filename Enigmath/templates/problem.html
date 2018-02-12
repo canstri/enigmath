@@ -3,9 +3,6 @@
 {% load crispy_forms_tags %}
 
 
-{% block head_title %}
-{{ instance.title }} | {{ block.super }}
-{% endblock head_title %}
 
 
 
@@ -25,7 +22,6 @@
             {% else %}
                 <h4>Solved</h4>
             {% endif %}
-            
             Author: <a href="{{ problem.get_profile }}">{{ problem.user }}</a>
 
             <p>{{ problem.content }}</p>
@@ -35,14 +31,40 @@
         <hr/>
         <br><br>
         <div class="col-sm-5">
-            <form class="comment_form" method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
-                {{ solve_problem_form }}
+            <form method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+                {{ save_problem_form }}
                 <br><br>
-                <input type='submit' class='btn btn-info' value='Submit' >
+                <input type='submit' class='btn btn-info' value='Save' >
+            </form>
+            <form  method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+                {{ check_problem_form }}
+                <br><br>
+                <input type='submit' class='btn btn-info' value='Check' >
             </form>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
         </div>
-        <div class="col-sm-5"><h4>Status: {{ action_check }}</h4></div>
+            
+
+        <div class="col-sm-2"><h4>Status: {{ action_check }}</h4></div>
+        <div class="col-sm-5">
+            <h4>Saved expressions: </h4>
+            {% for c in check_problem.actions %}
+                {{ c.0 }}
+                {{ c.1 }}
+
+                <form method="POST" action='' enctype='multipart/form-data'>{% csrf_token %}
+                    {{ delete_expression_form }}
+                    <input type="hidden" name="exp_id" value="{{ forloop.counter }}">
+                    <input type='submit' value='Delete' >
+                </form>
+                <hr>
+            {% endfor %}
+            <br>
+
+
+        </div>
+
 
         
 </div>

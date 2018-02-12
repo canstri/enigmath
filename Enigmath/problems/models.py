@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import pre_save
 from django.utils import timezone
 
+
 from django.utils.text import slugify
 from markdown_deux import markdown
 from django.utils.safestring import mark_safe
@@ -15,6 +16,9 @@ from transliterate import translit, get_available_language_codes
 from django.urls import reverse
 
 from django.db import models
+from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.fields import ArrayField
+from django_hstore import hstore
 from accounts.models import Profile
 
 
@@ -65,10 +69,12 @@ class Problem(models.Model):
 class CheckProblem(models.Model):
     user = models.PositiveIntegerField(null = True)
     problem_id = models.PositiveIntegerField(null = True)
-    solution = models.TextField(null = True)
-    solved = models.BooleanField(default=False)  
+    actions = ArrayField(ArrayField(models.TextField()), default=[['f', 'f']])
+    solved = models.BooleanField(default=False) 
 
 
+    # def delete():
+    #     return reverse("problems:exp_delete")
 
 
 

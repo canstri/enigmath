@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'olymps',
     'problems',
     'main',
+    'django.contrib.postgres',
+    "django_hstore",
 ]
 
 

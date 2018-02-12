@@ -31,5 +31,8 @@ def isequal(input_exp):
     if LHS == RHS:
         status = True
     
-    return status
+    result = 'Wrong'
+    if status == True:
+        result = 'Correct'
+    return result
 

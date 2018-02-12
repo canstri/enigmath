@@ -11,6 +11,38 @@ body{
   color: blue;
 }
 
+.olymp_image{
+  height: 100px;
+}
+
+.user_img_comments{
+  height: 50px;
+}
+
+#id_birthday_day{
+  width:42px;
+  margin:0;
+  padding:11px 0;
+  text-transform:none;
+  font-family: 'Roboto', sans-serif;
+  font-weight:300;
+  line-height:20px;
+  font-size: 13px;
+  color: #999;  
+  background: none;
+  border: 0;
+  box-shadow: none;  
+  transition: all 0.3s ease-in-out; 
+  -webkit-transition: all 0.3s ease-in-out;
+
+
+}
+
+#id_birthday_day:focus {
+  width:140px;
+  padding: 11px 20px 11px 0;
+}
+
 .comment_form{
   height: 200px;
 }
