@@ -5,9 +5,8 @@ from django.shortcuts import render, get_object_or_404
 
 from accounts.models import Profile
 from .solve_problem_form import SaveProblemForm
-from .check_problem_form import CheckProblemForm 
 
-from .delete_expression_form import DeleteExpressionForm
+from .expression_form import ExpressionForm
 from .models import Problem
 from .models import CheckProblem
 
@@ -64,36 +63,48 @@ def problem_thread(request, id):
             "object_id": obj.object_id
     }
 
-    check_problem = CheckProblem.objects.get(problem_id = obj.id, user = request.user.id)
+    if request.user.id:
+        check_problem = CheckProblem.objects.get(problem_id = obj.id, user = request.user.id)
+    else:
+        messages.warning(request, "You need to authanticate to see problems")
+        return HttpResponseRedirect(obj.content_object.get_absolute_url())
+    
+    action_check = ''
+    action_check2 = ''
 
     
-    action_check = 'Wrong'
-    # check_problem_form = CheckProblemForm(request.POST or None)
-    
-    # if check_problem_form.is_valid():
-    #     expr1 = check_problem_form.cleaned_data.get('exp1')
-    #     expr2 = check_problem_form.cleaned_data.get('exp2')
-    #     action_check = isequal(expr1)
-    #     print(action_check)
-        
+    expression_form = ExpressionForm(request.POST or None)
     
     save_problem_form = SaveProblemForm(request.POST or None)
+    if expression_form.is_valid():
+        expr_id = expression_form.cleaned_data.get('exp_id') - 1
+        if 'delete' in request.POST:
+            check_problem.actions.pop(expr_id) 
+            check_problem.save()
+            return HttpResponseRedirect(obj.get_absolute_url())
+        if 'use' in request.POST:
+            init_data = {
+                'expr2': check_problem.actions[expr_id][0]
+            }
+            save_problem_form = SaveProblemForm(request.POST or None, initial = init_data)
+        
     if save_problem_form.is_valid():
         expr1 = save_problem_form.cleaned_data.get('expr1')
         expr2 = save_problem_form.cleaned_data.get('expr2')
         action_check = isequal(expr1)
-        check_problem.actions.append([expr1, action_check])
-        #print(action_check)
-        check_problem.save()
-    
+        if action_check == '':
+            action_check2 = isequal(expr2)
 
-    delete_expression_form = DeleteExpressionForm(request.POST or None)
-    if delete_expression_form.is_valid():
-        expr_id = delete_expression_form.cleaned_data.get('exp_id') - 1
-        check_problem.actions.pop(expr_id) 
-        check_problem.save()
-        
-        
+        if 'save' in request.POST:
+            if action_check != '':
+                check_problem.actions.append([expr1, action_check])
+                check_problem.save()
+                return HttpResponseRedirect(obj.get_absolute_url())  
+            elif action_check2 != '':
+                check_problem.actions.append([expr2, action_check2])
+                check_problem.save()
+                return HttpResponseRedirect(obj.get_absolute_url()) 
+    
     profile = 'admin'
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user.id)
@@ -110,22 +121,6 @@ def problem_thread(request, id):
         "save_problem_form": save_problem_form,
         "check_problem": check_problem,
         "action_check":action_check,
-        "delete_expression_form": delete_expression_form,
+        "expression_form": expression_form,
     }
     return render(request, "problem.html", context)
-
-# def expression_delete(request, expression_text):
-#     try:
-#         prblm = Problem.objects.get(id=id)
-#     except:
-#         raise Http404
-#     try:
-#         expression = CheckProblem.objects.get(problem_id = prblm.id, user = request.user.id)
-#     except:
-#         raise Http404
-    
-#     if request.method == "POST":
-#         expression.actions.remove(expression_text)
-#         messages.success(request, "Successfully deleted")
-        
-

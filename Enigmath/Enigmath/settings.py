@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'problems',
     'main',
     'django.contrib.postgres',
-    "django_hstore",
 ]
 
 

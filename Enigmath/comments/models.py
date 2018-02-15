@@ -60,7 +60,7 @@ class Comment(models.Model):
         return reverse("comments:delete", kwargs={"id": self.id})
 
     def author(self): #replies
-        return Profile.objects.filter(user=self.user)
+        return Profile.objects.get(user=self.user)
 
 
     def children(self): #replies

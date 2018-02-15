@@ -18,7 +18,7 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.postgres.fields import HStoreField
 from django.contrib.postgres.fields import ArrayField
-from django_hstore import hstore
+
 from accounts.models import Profile
 
 

@@ -88,9 +88,13 @@ def news_detail(request, slug=None):
                         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
     
-
+    profile = 'admin'
+    is_auth = False
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user.id)
+        is_auth = True
+
+
     
     context = {
         "title": instance.title,
@@ -103,6 +107,7 @@ def news_detail(request, slug=None):
         "staff":staff,
         "profile":profile,
         "user":request.user,
+        "is_auth":is_auth,
     }
     return render(request, "news_detail.html", context)
 

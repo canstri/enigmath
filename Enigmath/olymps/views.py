@@ -85,14 +85,17 @@ def olymp_detail(request, slug=None):
         return HttpResponseRedirect(new_problem.content_object.get_absolute_url())
     
     profile = 'admin'
+    is_auth = False
     if request.user.is_authenticated:
         profile = Profile.objects.get(user = request.user.id)
+        is_auth = True
 
     array_of_user = []
     for prblm in instance.problems:
         array_of_user.append([prblm, CheckProblem.objects.filter(user = request.user.id, problem_id = prblm.id)])
 
     #check_problem = CheckProblem.objects.filter(user = request.user.id)
+   
     
     context = {
         "title": instance.title,
@@ -104,6 +107,7 @@ def olymp_detail(request, slug=None):
         "staff":staff,
         "profile":profile,
         "user":request.user,
+        "is_auth": is_auth,
     }
     return render(request, "olymp_detail.html", context)
 

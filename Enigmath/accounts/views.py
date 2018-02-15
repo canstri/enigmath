@@ -67,6 +67,7 @@ def account_view(request, user = None):
     if request.user.is_staff or request.user.is_superuser:
         staff = "yes"
 
+    yourprofile = 'admin'
     if request.user.is_authenticated:
         yourprofile = Profile.objects.get(user = request.user.id)
     

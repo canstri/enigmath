@@ -12,6 +12,9 @@ def isequal(input_exp):
     bool1 = False
     dannoe = input_exp
 
+    if dannoe == '':
+        return ('')
+
     for i in range(0, len(dannoe)):
         if (dannoe[i] == ">" and dannoe[i+1] == "=") or (dannoe[i] == "<" and dannoe[i+1] == "="):
             bool1 = True

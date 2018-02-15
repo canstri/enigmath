@@ -29,10 +29,12 @@
         <hr/>        
         {% for element_of_user in array_of_user %}  
 			<a href='{{ element_of_user.0.get_absolute_url }}'><h4>{{ element_of_user.0.title }}</h4></a>
-            {% if element_of_user.1.0.solved == False %}
-                <h4>Not solved</h4>
-            {% else %}
-                <h4>Solved</h4>
+            {% if is_auth == True %}
+                {% if element_of_user.1.0.solved == False %}
+                    <h4>Not solved</h4>
+                {% else %}
+                    <h4>Solved</h4>
+                {% endif %}
             {% endif %}
 
 

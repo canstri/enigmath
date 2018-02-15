@@ -20,7 +20,10 @@ class PostManager(models.Manager):
 
 def upload_location(instance, filename):
     PostModel = instance.__class__
-    new_id = PostModel.objects.order_by("id").last().id + 1
+    if PostModel.objects.order_by("id").last():
+        new_id = PostModel.objects.order_by("id").last().id + 1
+    else:
+        new_id=0
     return "%s/%s" %(instance.id, filename)
 
 class Post(models.Model):

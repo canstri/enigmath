@@ -4,7 +4,7 @@ from .models import CheckProblem
 from django.forms import CharField
 
 
-class DeleteExpressionForm(forms.ModelForm):
+class ExpressionForm(forms.ModelForm):
     exp_id = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = CheckProblem

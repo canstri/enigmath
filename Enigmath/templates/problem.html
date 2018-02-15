@@ -34,13 +34,15 @@
             <form method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
                 {{ save_problem_form }}
                 <br><br>
-                <input type='submit' class='btn btn-info' value='Save' >
+                <input type='submit' name = 'check' class='btn btn-info' value='Check' >
+                <input type='submit' name = 'save' class='btn btn-info' value='Save' >
+
             </form>
-            <form  method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
+            <!-- <form  method="POST" action='' enctype='multipart/form-data'> {% csrf_token %}
                 {{ check_problem_form }}
                 <br><br>
                 <input type='submit' class='btn btn-info' value='Check' >
-            </form>
+            </form> -->
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
         </div>
@@ -52,11 +54,11 @@
             {% for c in check_problem.actions %}
                 {{ c.0 }}
                 {{ c.1 }}
-
                 <form method="POST" action='' enctype='multipart/form-data'>{% csrf_token %}
                     {{ delete_expression_form }}
-                    <input type="hidden" name="exp_id" value="{{ forloop.counter }}">
-                    <input type='submit' value='Delete' >
+                    <input type='hidden' name='exp_id' value='{{ forloop.counter }}'>
+                    <input type='submit' name = 'use' class='btn btn-info' value='Use' >
+                    <input type='submit' name='delete' class='btn btn-info' value='Delete' >
                 </form>
                 <hr>
             {% endfor %}
